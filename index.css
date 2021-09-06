@@ -12,6 +12,9 @@ canvas{
     align-items: center;
     justify-content: center;
     border: 1px solid red;
+    position: relative;
+    right: -370px;
+    top: -250px;
 }
 .flex-container{
     /*Tamano del Div*/
