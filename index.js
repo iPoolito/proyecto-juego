@@ -235,7 +235,12 @@ function updateObstacles(){
 //Restamos en X para que simulen que se estan desplazando  de derecha a izquierda
         myObstacles[i].x-=1
         myObstacles[i].draw()
+        //COndicion que va eliminado las ratas de mi arreglo
+        if(myObstacles[i].x<0){
+            myObstacles.splice(i,1)
+        }
     }
+    //console.log(myObstacles)
 //VAmos aumentando los frames en 1
 frames+=1;
 //Cada 120 frames entraremos a la condicion de crear un obstaculo random
@@ -258,7 +263,12 @@ function disparo(){
         //Restamos en X para que simulen que se estan desplazando  derecha a izquierda
             disparos[i].x+=1
             disparos[i].draw()
+            //Limpia los disparos si sobrepasan el canvas 
+            if(disparos[i].x>1000){
+                disparos.splice(i,1)
             }
+            }
+            //console.log(disparos)
 
             if(space==true){
                 disparos.push(new laser(player.x+50,player.y))
@@ -274,16 +284,17 @@ let crashed
 function checkGolpe () {
     // SI UNO DE LOS VALORES REGRESA CON TRUE, ENTONCES SE DEVUELVE TRUE. SI NINGUNO, ABSOLUTAMENTE NINGUNO, CUMPLE, ENTONCES DEVUELVE FALSE
     for(let i = 0; i<disparos.length;i++){
-    crashed = myObstacles.some((obstacle) => {
-        
-            return disparos[i].crashWith(obstacle)
-        
-        
-    })
+    for(let r=0;r<myObstacles.length;r++){
+        if(disparos[i].crashWith(myObstacles[r])){
+            disparos.splice(i,1)
+            myObstacles.splice(r,1)
+        }
+    }
 }
    // console.log("crashed", crashed)
     if(crashed) {
-        console.log('pego la bala')
+        myObstacles.splice()
+       // console.log('pego la bala')
        //clearInterval(gameInterval)
     }
   
@@ -321,6 +332,7 @@ gameInterval=setInterval(updateGame,1000/60)
 }
 //EVENTOS DEL JUGADOR
 document.addEventListener("keydown",(e)=>{
+    e.preventDefault()
 
     switch(e.keyCode){
     case 39:
