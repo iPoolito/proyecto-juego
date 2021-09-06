@@ -6,6 +6,7 @@ let frames=0
 let gameOn=false;
 let space=false;
 let vidas=3;
+let score=0;
 //1.Clases del Juego tablero, jugador, Obstaculos.
 
 class Board{
@@ -223,7 +224,8 @@ player.outBoard();
 player.draw();
 disparo();
 updateObstacles();
-checkGolpe() 
+checkScore();
+checkGolpe() ;
 
 }
 //Creacion de Obstaculos
@@ -244,7 +246,7 @@ function updateObstacles(){
 //VAmos aumentando los frames en 1
 frames+=1;
 //Cada 120 frames entraremos a la condicion de crear un obstaculo random
-if(frames%200==0){
+if(frames%30==0){
 //ancho y largo del canvas
     let minHeight=0;
     let maxHeight=600;
@@ -282,10 +284,14 @@ function disparo(){
 let crashed
 //Verificar si pego el lazer
 function checkGolpe () {
-    // SI UNO DE LOS VALORES REGRESA CON TRUE, ENTONCES SE DEVUELVE TRUE. SI NINGUNO, ABSOLUTAMENTE NINGUNO, CUMPLE, ENTONCES DEVUELVE FALSE
+    // iteramos en el arreglo de los disparos
     for(let i = 0; i<disparos.length;i++){
+        //iteramos en el arreglo de las ratas
     for(let r=0;r<myObstacles.length;r++){
+        //si un disparo ya choco con una rata
         if(disparos[i].crashWith(myObstacles[r])){
+            //que splice laa rata y el disparo de su arreglo
+            score++
             disparos.splice(i,1)
             myObstacles.splice(r,1)
         }
@@ -312,7 +318,12 @@ function clearCanvas(){
 }
 
 
-
+//SCORE
+function checkScore(){
+    ctx.font='18px ZCOOL KuaiLe';
+    ctx.fillStyle= 'green';
+    ctx.fillText(`Ratas eliminadas: ${score}`,450,25)
+}
 
 
 //Cada vez que carge la pagina, va traer el elemento star y cuando se le haga click va ejecutar startGame
