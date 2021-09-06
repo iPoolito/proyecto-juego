@@ -88,9 +88,11 @@ class Rick{
 outBoard(){
     if(this.y<0){
         this.y=600;
+        this.speedY=0
     }
     if(this.y>600){
         this.y=0;
+        this.speedY=0
     }
     if(this.x<0){
         this.x=0;
@@ -206,6 +208,22 @@ left() {
   
 }
 
+class Vidas{
+  
+  constructor(x,y){
+    this.x = x
+    this.y=y
+    this.width=70;
+    this.height=90;
+    this.img=new Image();
+ this.img.src="/imagenes/vidasrick.png";
+}
+draw(){
+ctx.drawImage(this.img,this.x,this.y,this.width,this.height);
+
+}
+}
+
 
 
 //Instancia
@@ -226,6 +244,7 @@ disparo();
 updateObstacles();
 checkScore();
 checkGolpe() ;
+checkLife();
 
 }
 //Creacion de Obstaculos
@@ -239,6 +258,8 @@ function updateObstacles(){
         myObstacles[i].draw()
         //COndicion que va eliminado las ratas de mi arreglo
         if(myObstacles[i].x<0){
+          vidas--
+          console.log(vidas)
             myObstacles.splice(i,1)
         }
     }
@@ -304,6 +325,30 @@ function checkGolpe () {
        //clearInterval(gameInterval)
     }
   
+  }
+  const lifeArr=[];
+  lifeArr.push(new Vidas(10,10))
+        lifeArr.push(new Vidas(80,10))
+        lifeArr.push(new Vidas(150,10))
+  function checkLife(){
+    
+    for(let i =0 ; i<lifeArr.length;i++){
+      lifeArr[i].draw()
+    }
+      
+        if(vidas==2){
+          
+          lifeArr.splice(2,1);
+         
+      }
+        if(vidas==1){
+          lifeArr.splice(1,1);
+        
+        }
+        if(vidas==0){
+          lifeArr.splice(0,1)
+        }
+    
   }
   
 
