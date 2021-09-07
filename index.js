@@ -1,8 +1,10 @@
 //Instancias para poder manipular el DOM
-const div= document.querySelector(".flex-container");
+
 const contenedor=document.querySelector(".text-container")
 const instruction= document.querySelector(".text");
 const img=document.querySelector("#start")
+const divInstructions= document.querySelector(".instructions-container");
+const divGameBoard= document.querySelector(".gameBoard");
 
 
 //La etiqueta que vamos a utiliazar para referirnos al canvas
@@ -337,7 +339,7 @@ function updateObstacles(){
     //console.log(myObstacles)
 //VAmos aumentando los frames en 1
 frames+=1;
-if(frames%10==0){
+if(frames%1==0){
   rickGanar.x++
 }
 //Cada 120 frames entraremos a la condicion de crear un obstaculo random
@@ -481,12 +483,13 @@ function checkWin(){
     clearInterval(gameInterval)
     clearCanvas()
     win();
+    RickOut();
   }
 }
 
 function win(){
-boardWin.drawNoMove()
-fraseWin()
+//boardWin.drawNoMove()
+//fraseWin()
 }
 function fraseWin(){
   ctx.font='40px ZCOOL KuaiLe';
@@ -501,11 +504,21 @@ function instrucciones(){
   
   `
  img.remove()
-  const arrowKeys= document.createElement("IMG")
-  arrowKeys.setAttribute("src","")
-  arrowKeys.setAttribute("width","200");
-  arrowKeys.setAttribute("height","200");
+ // createKeys()
  
+ 
+}
+function RickOut(){
+  $canvas.remove()
+  const rickWin= document.createElement("IMG")
+  rickWin.setAttribute("src","/imagenes/rick-sale.gif")
+  rickWin.setAttribute("width","1000");
+  rickWin.setAttribute("height","600");
+  rickWin.setAttribute
+  divGameBoard.appendChild(rickWin)
+}
+function arrowKeys(){
+  
 }
 //Cada vez que carge la pagina, va traer el elemento star y cuando se le haga click va ejecutar startGame
 window.onload= () =>{
