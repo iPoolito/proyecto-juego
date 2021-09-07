@@ -7,8 +7,9 @@ const divInstructions= document.querySelector(".instructions-container");
 const divGameBoard= document.querySelector(".gameBoard");
 
 
+
 //La etiqueta que vamos a utiliazar para referirnos al canvas
-const $canvas = document.querySelector("canvas");
+const $canvas = document.querySelector("#canvas");
 //indicamos que dibujaremos en 2D
 const ctx= $canvas.getContext("2d");
 let frames=0
@@ -481,17 +482,23 @@ function fraseLost(){
 function checkWin(){
   if(rickGanar.x>730){
     clearInterval(gameInterval)
-    clearCanvas()
-    win();
+    clearCanvas();
+  
     RickOut();
+    setTimeout(win,8400)
+    //win()
   }
 }
 
 function win(){
-//boardWin.drawNoMove()
-//fraseWin()
+  removeRick()
+
+boardWin.drawNoMove()
+fraseWin()
 }
+
 function fraseWin(){
+
   ctx.font='40px ZCOOL KuaiLe';
   ctx.fillStyle= 'Green';
   ctx.fillText(`YOU WIN`,430,50)
@@ -509,16 +516,20 @@ function instrucciones(){
  
 }
 function RickOut(){
-  $canvas.remove()
   const rickWin= document.createElement("IMG")
   rickWin.setAttribute("src","/imagenes/rick-sale.gif")
   rickWin.setAttribute("width","1000");
   rickWin.setAttribute("height","600");
-  rickWin.setAttribute
-  divGameBoard.appendChild(rickWin)
+  rickWin.setAttribute("class","rickWin");
+  divGameBoard.insertBefore(rickWin,divGameBoard.firstChild)
+}
+//Creacion del canvas
+function removeRick(){
+  const removeRick=document.querySelector(".rickWin")
+  removeRick.remove()
 }
 function arrowKeys(){
-  
+
 }
 //Cada vez que carge la pagina, va traer el elemento star y cuando se le haga click va ejecutar startGame
 window.onload= () =>{

@@ -70,6 +70,11 @@ div{
     width: 70%;
      height: 100%;
     display: flex;
-    justify-content: center;
+    justify-content:center;
     align-items: center;
+    flex-direction: column;
+}
+.rickWin{
+    position: relative;
+    top: 270px
 }
