@@ -1,3 +1,9 @@
+//Instancias para poder manipular el DOM
+const div= document.querySelector(".flex-container");
+const instruction= document.querySelector(".text");
+const img=document.querySelector("#start")
+
+
 //La etiqueta que vamos a utiliazar para referirnos al canvas
 const $canvas = document.querySelector("canvas");
 //indicamos que dibujaremos en 2D
@@ -330,7 +336,7 @@ function updateObstacles(){
     //console.log(myObstacles)
 //VAmos aumentando los frames en 1
 frames+=1;
-if(frames%3==0){
+if(frames%10==0){
   rickGanar.x++
 }
 //Cada 120 frames entraremos a la condicion de crear un obstaculo random
@@ -488,7 +494,17 @@ function fraseWin(){
   ctx.fillText(`Ratas eliminadas: ${score}`,300,560)
 }
 
-
+function instrucciones(){
+  instruction.innerHTML=`
+  <p class="instructions"> HELP PICKLE RICK GET OUT OF THE DRAIN  <br/>DONT LET THE RATS CROSS THE ROAD  <br/>
+  
+  `
+ 
+  const controls= document.createElement("p")
+ 
+  controls.innerHTML=` <p class="instructions"> HELP PICKLE RICK GET OUT OF THE DRAIN  <br/>`
+  //controls.appendChild(div)
+}
 //Cada vez que carge la pagina, va traer el elemento star y cuando se le haga click va ejecutar startGame
 window.onload= () =>{
     document.getElementById('start').onclick=()=>{
@@ -496,6 +512,7 @@ window.onload= () =>{
         startGame();
         vidas=3;
         setLifes();
+        instrucciones();
     }
 }
 

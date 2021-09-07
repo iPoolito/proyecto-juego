@@ -40,30 +40,23 @@ canvas{
     justify-content: center;
     color: white;
     font-size: 2rem;
-}
-
-
-
-
-.logo{
- display: flex;
- align-items: center;
- justify-content:flex-start;
+    position: relative;
+    top: 100px;
+    left: 10px;
 }
  /* clases */
-.background{
-    min-height: 100%;
-    min-width: 100%;
-    width: 100%;
-    height: 100%;
-
-    /* la posicion */
-    position:relative;
-    top: 0;
-    left: 0;
+#start{
+position: relative;
+top: 200px;
 }
-.start{
-    display: flex;
-    align-items: center;
+#logo{
+    position: relative;
+   left:-70px ;
+    }
+.instructions{
     justify-content: center;
+    color: white;
+    font-size: 1.5rem;
+    position: relative;
+    top: 25px;
 }
