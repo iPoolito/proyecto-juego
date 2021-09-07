@@ -1,5 +1,6 @@
 //Instancias para poder manipular el DOM
 const div= document.querySelector(".flex-container");
+const contenedor=document.querySelector(".text-container")
 const instruction= document.querySelector(".text");
 const img=document.querySelector("#start")
 
@@ -499,11 +500,12 @@ function instrucciones(){
   <p class="instructions"> HELP PICKLE RICK GET OUT OF THE DRAIN  <br/>DONT LET THE RATS CROSS THE ROAD  <br/>
   
   `
+ img.remove()
+  const arrowKeys= document.createElement("IMG")
+  arrowKeys.setAttribute("src","")
+  arrowKeys.setAttribute("width","200");
+  arrowKeys.setAttribute("height","200");
  
-  const controls= document.createElement("p")
- 
-  controls.innerHTML=` <p class="instructions"> HELP PICKLE RICK GET OUT OF THE DRAIN  <br/>`
-  //controls.appendChild(div)
 }
 //Cada vez que carge la pagina, va traer el elemento star y cuando se le haga click va ejecutar startGame
 window.onload= () =>{

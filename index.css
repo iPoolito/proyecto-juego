@@ -8,26 +8,26 @@
     padding: 0;
 }
 body{
-    background-color: black;
+    background-image: url(./imagenes/backgroundcut.gif);
+    
+    background-size:100% 100%;
+    background-repeat:no-repeat;
 }
 canvas{
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    
     position: relative;
     right: -600px;
-    top: -250px;
+    top: -50px;
 }
 .flex-container{
     /*Tamano del Div*/
-    height: 1000px;
+    height: 100%;
     width: 100%;
+     /*Tamano del fondo
+    background-image: url(./imagenes/backgroundcut.gif);
     
-    background-image: url(./imagenes/portal-animado.gif);
-     /*Tamano del fondo*/
-    background-size:2200px 900px;
+    background-size:100%;
     background-repeat:no-repeat;
+    */
 }
 .title{
     display: flex;
@@ -47,7 +47,7 @@ canvas{
  /* clases */
 #start{
 position: relative;
-top: 200px;
+top: -220px;
 }
 #logo{
     position: relative;
