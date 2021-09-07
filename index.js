@@ -10,7 +10,7 @@ let score=0;
 //1.Clases del Juego tablero, jugador, Obstaculos.
 
 class Board{
-constructor(){
+constructor(src){
     //Determinar posiciones iniciales en X , Y
     this.x=0;
     this.y=0;
@@ -18,7 +18,7 @@ constructor(){
     this.width=$canvas.width;
     this.height=$canvas.height;
     this.img = new Image();
-    this.img.src="/imagenes/campamento-Rick.jpeg"
+    this.img.src=src//"/imagenes/campamento-Rick.jpeg"
 }
 
 //Metodo para pintar
@@ -37,6 +37,9 @@ ctx.drawImage(
     this.height
     );
     }
+drawNoMove(){
+  ctx.drawImage(this.img,this.x,this.y,this.width,this.height);
+}
 
 }
 //Clase de RICK
@@ -277,11 +280,13 @@ class start{
 
 //Instancia
 
-const board=new Board();
-const player=new Rick(50,300);
-const rickGanar=new rickRoad(300,25,"/imagenes/Pickle_rick_transparent_edgetrimmed.png");
-const inicio=new start(250,10,"/imagenes/start.png");
-const meta= new start(700,10,"/imagenes/bano.png");
+const board=new Board("/imagenes/campamento-Rick.jpeg");  //tablero
+const player=new Rick(50,300); //el jugador
+const rickGanar=new rickRoad(300,25,"/imagenes/Pickle_rick_transparent_edgetrimmed.png");//Rick moviendose arriba
+const inicio=new start(250,10,"/imagenes/start.png");// START
+const meta= new start(700,10,"/imagenes/bano.png");// END
+const boardLost=new Board("/imagenes/perdiste morty.png");//PANTALLA DE PERDER
+const boardWin=new Board("/imagenes/winImage.jpg");//PANTALLA DE GANAR
 
 
 //Motor del juego
@@ -325,7 +330,7 @@ function updateObstacles(){
     //console.log(myObstacles)
 //VAmos aumentando los frames en 1
 frames+=1;
-if(frames%1==0){
+if(frames%3==0){
   rickGanar.x++
 }
 //Cada 120 frames entraremos a la condicion de crear un obstaculo random
@@ -447,13 +452,40 @@ function checkGameOver(){
   if(vidas==0){
     clearInterval(gameInterval)
     clearCanvas();
+    lost();
   }
+}
+ //DESPUES DE PERDER.
+
+ function lost(){
+  boardLost.drawNoMove();
+  fraseLost();
+}
+
+function fraseLost(){
+  ctx.font='40px ZCOOL KuaiLe';
+  ctx.fillStyle= 'black';
+  ctx.fillText(`Eres un inutil Morty`,50,200)
+  ctx.fillText(`Ni si quiera un juego puedes ganar?`,50,250)
 }
 //GANAR
 function checkWin(){
   if(rickGanar.x>730){
     clearInterval(gameInterval)
+    clearCanvas()
+    win();
   }
+}
+
+function win(){
+boardWin.drawNoMove()
+fraseWin()
+}
+function fraseWin(){
+  ctx.font='40px ZCOOL KuaiLe';
+  ctx.fillStyle= 'Green';
+  ctx.fillText(`YOU WIN`,430,50)
+  ctx.fillText(`Ratas eliminadas: ${score}`,300,560)
 }
 
 
@@ -508,8 +540,4 @@ document.addEventListener("keydown",(e)=>{
     space=false;
   })
   
-  //DESPUES DE PERDER.
-
-  function lost(){
-
-  }
+ 
