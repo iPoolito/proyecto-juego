@@ -86,22 +86,22 @@ class Rick{
  }
  //Condiciones para no salir del area del juego
 outBoard(){
-    if(this.y<0){
-        this.y=600;
+    if(this.y<100){
+        this.y=100;
         this.speedY=0
     }
-    if(this.y>600){
-        this.y=0;
+    if(this.y>500){
+        this.y=500;
         this.speedY=0
     }
     if(this.x<0){
         this.x=0;
     }
-    if(this.x>350){
-        this.x=350;
+    if(this.x>900){
+        this.x=900;
     }
 }
-//Delimitar el area de rick
+//Delimitar el area de rick para cuando choque
 left() {
     return this.x
   }
@@ -224,12 +224,65 @@ ctx.drawImage(this.img,this.x,this.y,this.width,this.height);
 }
 }
 
+class rickRoad{
+  constructor(x,y,src){
+      //Esta seccion va servir como referencia a la posicion
+      //donde queremos que se encuentre y el tamano al momento de pintarlo
+ 
+      this.x = x;
+      this.y =y;
+      this.width=40;
+      this.height=40;
+      //Darle movimiento
+      this.speedX=0;
+      this.speedY=0;
+      this.img=new Image();
+      this.img.src=src 
+ 
+  }
+  //Metodos de rick en top
+  
+  draw(){
+      //Para pintarlo 
+      //que empice en la posicion que le vamos a indicar y que termine con el ancho y largo que queremos
+      ctx.drawImage(this.img,this.x,this.y,this.width,this.height);
+  }
+
+}
+
+
+//Clase del inicio y meta
+class start{
+  constructor(x,y,src){
+      //Esta seccion va servir como referencia a la posicion
+      //donde queremos que se encuentre y el tamano al momento de pintarlo
+      this.x = x;
+      this.y =y;
+      this.width=80;
+      this.height=80;
+      this.img=new Image();
+      this.img.src= src//"/imagenes/start.png";
+ 
+  }
+  draw(){
+      //Para pintarlo 
+      //que empice en la posicion que le vamos a indicar y que termine con el ancho y largo que queremos
+      ctx.drawImage(this.img,this.x,this.y,this.width,this.height);
+  }
+
+}
+
+
 
 
 //Instancia
 
 const board=new Board();
 const player=new Rick(50,300);
+const rickGanar=new rickRoad(300,25,"/imagenes/Pickle_rick_transparent_edgetrimmed.png");
+const inicio=new start(250,10,"/imagenes/start.png");
+const meta= new start(700,10,"/imagenes/bano.png");
+
 
 //Motor del juego
 
@@ -240,11 +293,16 @@ board.draw();
 player.newPos();
 player.outBoard();
 player.draw();
+inicio.draw();
+meta.draw();
+rickGanar.draw();
 disparo();
 updateObstacles();
 checkScore();
 checkGolpe() ;
 checkLife();
+checkGameOver();
+checkWin();
 
 }
 //Creacion de Obstaculos
@@ -256,8 +314,9 @@ function updateObstacles(){
 //Restamos en X para que simulen que se estan desplazando  de derecha a izquierda
         myObstacles[i].x-=1
         myObstacles[i].draw()
-        //COndicion que va eliminado las ratas de mi arreglo
+        //COndicion que va eliminado las ratas del arreglo cuando salen del canvas
         if(myObstacles[i].x<0){
+          //SI las ratas  atraviesan va restando vidas.
           vidas--
           console.log(vidas)
             myObstacles.splice(i,1)
@@ -266,12 +325,16 @@ function updateObstacles(){
     //console.log(myObstacles)
 //VAmos aumentando los frames en 1
 frames+=1;
+if(frames%1==0){
+  rickGanar.x++
+}
 //Cada 120 frames entraremos a la condicion de crear un obstaculo random
-if(frames%30==0){
+    if(frames%60==0){
 //ancho y largo del canvas
-    let minHeight=0;
-    let maxHeight=600;
+    let minHeight=100;
+    let maxHeight=500;
     let height= Math.floor(Math.random()*(maxHeight-minHeight+1)+minHeight);
+    console.log(height)
 
     myObstacles.push(new Rats(1000,height));
 
@@ -287,6 +350,7 @@ function disparo(){
             disparos[i].x+=1
             disparos[i].draw()
             //Limpia los disparos si sobrepasan el canvas 
+
             if(disparos[i].x>1000){
                 disparos.splice(i,1)
             }
@@ -294,8 +358,11 @@ function disparo(){
             //console.log(disparos)
 
             if(space==true){
+
+              //setTimeout(pushearLaser,1000);
                 disparos.push(new laser(player.x+50,player.y))
-            }
+            
+              }
     
         
         space==false;
@@ -312,6 +379,7 @@ function checkGolpe () {
         //si un disparo ya choco con una rata
         if(disparos[i].crashWith(myObstacles[r])){
             //que splice laa rata y el disparo de su arreglo
+            //Se aumenta en 1 el score al ir matando las ratas
             score++
             disparos.splice(i,1)
             myObstacles.splice(r,1)
@@ -326,16 +394,21 @@ function checkGolpe () {
     }
   
   }
+//Array donde colocamos el objeto de las vidas.
   const lifeArr=[];
-  lifeArr.push(new Vidas(10,10))
+  //SE pushean 3 vidas de inicio
+function setLifes(){
+        lifeArr.push(new Vidas(10,10))
         lifeArr.push(new Vidas(80,10))
         lifeArr.push(new Vidas(150,10))
+}
+ 
   function checkLife(){
-    
+    //Se itera para poder pintar cada una de las vidas.
     for(let i =0 ; i<lifeArr.length;i++){
       lifeArr[i].draw()
     }
-      
+      //Si las vidas disminuyen se van sacando del arreglo los objetos.
         if(vidas==2){
           
           lifeArr.splice(2,1);
@@ -367,7 +440,20 @@ function clearCanvas(){
 function checkScore(){
     ctx.font='18px ZCOOL KuaiLe';
     ctx.fillStyle= 'green';
-    ctx.fillText(`Ratas eliminadas: ${score}`,450,25)
+    ctx.fillText(`Ratas eliminadas: ${score}`,800,25)
+}
+//GAME OVER
+function checkGameOver(){
+  if(vidas==0){
+    clearInterval(gameInterval)
+    clearCanvas();
+  }
+}
+//GANAR
+function checkWin(){
+  if(rickGanar.x>730){
+    clearInterval(gameInterval)
+  }
 }
 
 
@@ -376,6 +462,8 @@ window.onload= () =>{
     document.getElementById('start').onclick=()=>{
         //gameOn=false;
         startGame();
+        vidas=3;
+        setLifes();
     }
 }
 
@@ -404,7 +492,7 @@ document.addEventListener("keydown",(e)=>{
     case 40:
       player.speedY+=1;
       break;
-    case 81:
+    case 32:
         space=true;
     break    ;
   
@@ -420,3 +508,8 @@ document.addEventListener("keydown",(e)=>{
     space=false;
   })
   
+  //DESPUES DE PERDER.
+
+  function lost(){
+
+  }
