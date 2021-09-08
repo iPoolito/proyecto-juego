@@ -727,6 +727,7 @@ function resetGame(){
     score=0;
     startGame()
     console.log("reiniciando")
+    reiniciar.remove();
   }
 }
 
