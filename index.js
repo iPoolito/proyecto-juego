@@ -8,6 +8,7 @@ const divGameBoard= document.querySelector(".gameBoard");
 let reiniciar
 const audio = new Audio("/music/opening.mp3");
 const audioLost = new Audio("/music/evil-morty-lost.mp3");
+const audioWin = new Audio("/music/warriors.mp3");
 const audioShot = new Audio("/music/lasershot.mp3");
 
 
@@ -517,6 +518,7 @@ function checkWin(){
     clearCanvas();
   
     RickOut();
+    playAudioWin()
     setTimeout(win,8400)
     //win()
   }
@@ -533,9 +535,9 @@ fraseWin()
 function fraseWin(){
 
   ctx.font='40px ZCOOL KuaiLe';
-  ctx.fillStyle= 'Green';
+  ctx.fillStyle= 'RED';
   ctx.fillText(`YOU WIN`,430,50)
-  ctx.fillText(`Killed Rats: ${score}`,300,560)
+  ctx.fillText(`Killed Rats: ${score}`,350,560)
 }
 //Agregar la parte de las instrucciones y las arrowKeys!
 function instrucciones(){
@@ -555,6 +557,7 @@ function instrucciones(){
   divInstructions.appendChild(disparo)
  img.remove()
 arrowKeys();
+spacebar();
 reStart(); //DESCOMENTAR
 
 reiniciar=document.querySelector(".reset"); // DESCOMENTAR
@@ -601,6 +604,14 @@ function arrowKeys(){
   flechas.setAttribute("height","150");
   flechas.setAttribute("class","flechas");
   divInstructions.appendChild(flechas)
+}
+function spacebar(){
+  const spaceBar= document.createElement("IMG")
+  spaceBar.setAttribute("src","/imagenes/spacebar.png")
+  spaceBar.setAttribute("width","180");
+  spaceBar.setAttribute("height","150");
+  spaceBar.setAttribute("class","spaceBar");
+  divInstructions.appendChild(spaceBar)
 }
 function reStart(){
   const reset= document.createElement("IMG")
@@ -653,6 +664,14 @@ audioLost.currentTime=35;
 audioLost.volume=0.3;
 
 }
+function playAudioWin(){
+  audio.pause();
+audioWin.play();
+audioWin.currentTime=3;
+audioWin.volume=0.3;
+
+}
+
 function playAudioShot(){
   audioShot.play()
   audioShot.currentTime=1
@@ -669,6 +688,7 @@ gameInterval=setInterval(updateGame,1000/60)
 function resetGame(){
   reiniciar.onclick=()=>{
     //paramos auido
+    audioWin.pause()
     audioLost.pause()
     //Paramos el motor del juego
     clearInterval(gameInterval)

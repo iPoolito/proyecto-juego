@@ -96,10 +96,15 @@ div{
   left: 85px;
   top: 75px;
 }
+.spaceBar{
+    position:relative;
+    left: 100px;
+    top: 80px;
+  }
 .reset{
     position:relative;
   left: 85px;
-  top: 150px;
+  top: 50px;
 }
 p{
  
