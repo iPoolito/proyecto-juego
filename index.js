@@ -5,7 +5,7 @@ const instruction= document.querySelector(".text");
 const img=document.querySelector("#start")
 const divInstructions= document.querySelector(".instructions-container");
 const divGameBoard= document.querySelector(".gameBoard");
-
+let reiniciar
 
 
 
@@ -78,7 +78,7 @@ class Rick{
      //que empice en la posicion que le vamos a indicar y que termine con el ancho y largo que queremos
      ctx.drawImage(this.img,this.x,this.y,this.width,this.height);
  }
- //Movimietno, unicamente arriba o abajo
+ //Movimiento
 
  moveUp(){
      return this.y
@@ -316,6 +316,7 @@ disparo();
 updateObstacles();
 checkScore();
 checkGolpe() ;
+checkGolpeRick()
 checkLife();
 checkGameOver();
 checkWin();
@@ -334,7 +335,7 @@ function updateObstacles(){
         if(myObstacles[i].x<0){
           //SI las ratas  atraviesan va restando vidas.
           vidas--
-          //console.log(vidas)
+         // console.log("estas son las vidas",vidas)
             myObstacles.splice(i,1)
         }
     }
@@ -401,12 +402,28 @@ function checkGolpe () {
             myObstacles.splice(r,1)
         }
     }
-}
    // console.log("crashed", crashed)
     if(crashed) {
         myObstacles.splice()
        // console.log('pego la bala')
        //clearInterval(gameInterval)
+    }
+  
+  }
+}
+  let lifePoints=1
+  function checkGolpeRick(){
+    const rickGolpe=myObstacles.some((obstacle)=>{
+      return player.crashWith(obstacle)
+    })
+
+    if(rickGolpe){
+      lifePoints++
+      //console.log(lifePoints)
+
+    }
+    if(lifePoints%50==0){
+      vidas--
     }
   
   }
@@ -463,12 +480,15 @@ function checkGameOver(){
   if(vidas==0){
     clearInterval(gameInterval)
     clearCanvas();
-    lost();
+    rickCry();
+    setTimeout(lost,5000)
+    //lost();
   }
 }
  //DESPUES DE PERDER.
 
  function lost(){
+   removeRickCry()
   boardLost.drawNoMove();
   fraseLost();
 }
@@ -523,12 +543,14 @@ function instrucciones(){
   divInstructions.appendChild(disparo)
  img.remove()
 arrowKeys();
-//reStart(); DESCOMENTAR
-//reiniciar=document.querySelector(".reset");
-let reiniciar=document.querySelector(".reset");
+reStart(); //DESCOMENTAR
+
+reiniciar=document.querySelector(".reset");
+//intervalo que revisa si el boton ya fue presionado
+resetInterval=setInterval(resetGame,1000/60)
 }
 
-
+//Secuencia cuando ganass
 function RickOut(){
   const rickWin= document.createElement("IMG")
   rickWin.setAttribute("src","/imagenes/rick-sale.gif")
@@ -537,11 +559,29 @@ function RickOut(){
   rickWin.setAttribute("class","rickWin");
   divGameBoard.insertBefore(rickWin,divGameBoard.firstChild)
 }
-//Creacion del canvas
+//Secuencia cuando pierdes
+function rickCry(){
+  const rickllorando= document.createElement("IMG")
+  rickllorando.setAttribute("src","/imagenes/lose.gif")
+  rickllorando.setAttribute("width","1000");
+  rickllorando.setAttribute("height","600");
+  rickllorando.setAttribute("class","rickllorando");
+  divGameBoard.insertBefore(rickllorando,divGameBoard.firstChild)
+}
+
+
+////remueve el elemento de la secuencia
 function removeRick(){
   const removeRick=document.querySelector(".rickWin")
   removeRick.remove()
 }
+
+
+function removeRickCry(){
+  const removeRickllorando=document.querySelector('.rickllorando');
+  removeRickllorando.remove()
+}
+
 function arrowKeys(){
   const flechas= document.createElement("IMG")
   flechas.setAttribute("src","/imagenes/keys.png")
@@ -558,6 +598,15 @@ function reStart(){
   reset.setAttribute("class","reset");
   divInstructions.appendChild(reset)
   
+}
+//Limpiar arregglos
+function resetArr(arr){
+  
+  for(let i =0; i<arr.length;i++)
+  //preveniendo que sean muchos objetos en el array que hay que limpiar
+  arr.splice(i,100)
+ // console.log("limpiando array")
+
 }
 //Cada vez que carge la pagina, va traer el elemento star y cuando se le haga click va ejecutar startGame
 window.onload= () =>{
@@ -584,7 +633,30 @@ gameInterval=setInterval(updateGame,1000/60)
    // }
 }
 //EVENTOS DEL JUGADOR
-
+function resetGame(){
+  reiniciar.onclick=()=>{
+    //Paramos el motor del juego
+    clearInterval(gameInterval)
+  
+    //limpiamos los arreglos
+      resetArr(myObstacles)
+      resetArr(disparos)
+      resetArr(lifeArr)
+    //seteamos vidas
+    setLifes();
+    vidas=3;
+    //seteamos los lifePoints
+    lifePoints=1;
+    //Regresamos el Rick al inicio
+    player.x=50
+    player.y=300
+    rickGanar.x=300
+    //seteamos el score
+    score=0;
+    startGame()
+    console.log("reiniciando")
+  }
+}
 document.addEventListener("keydown",(e)=>{
     e.preventDefault()
 
