@@ -8,6 +8,7 @@ const divGameBoard= document.querySelector(".gameBoard");
 
 
 
+
 //La etiqueta que vamos a utiliazar para referirnos al canvas
 const $canvas = document.querySelector("#canvas");
 //indicamos que dibujaremos en 2D
@@ -333,14 +334,14 @@ function updateObstacles(){
         if(myObstacles[i].x<0){
           //SI las ratas  atraviesan va restando vidas.
           vidas--
-          console.log(vidas)
+          //console.log(vidas)
             myObstacles.splice(i,1)
         }
     }
     //console.log(myObstacles)
 //VAmos aumentando los frames en 1
 frames+=1;
-if(frames%1==0){
+if(frames%7==0){
   rickGanar.x++
 }
 //Cada 120 frames entraremos a la condicion de crear un obstaculo random
@@ -349,7 +350,7 @@ if(frames%1==0){
     let minHeight=100;
     let maxHeight=500;
     let height= Math.floor(Math.random()*(maxHeight-minHeight+1)+minHeight);
-    console.log(height)
+    //console.log(height)
 
     myObstacles.push(new Rats(1000,height));
 
@@ -504,17 +505,30 @@ function fraseWin(){
   ctx.fillText(`YOU WIN`,430,50)
   ctx.fillText(`Ratas eliminadas: ${score}`,300,560)
 }
-
+//Agregar la parte de las instrucciones y las arrowKeys!
 function instrucciones(){
   instruction.innerHTML=`
-  <p class="instructions"> HELP PICKLE RICK GET OUT OF THE DRAIN  <br/>DONT LET THE RATS CROSS THE ROAD  <br/>
+  <p class="instructions"> Help picle rick get out of the drain  <br/>DONT LET THE RATS CROSS THE ROAD  <br/>
   
   `
+  //INSTRUCCIONES DE MOVIMIENTO
+  let movimiento=document.createElement("p")
+  let text1=document.createTextNode("Use arrow keys for moving.");
+  movimiento.appendChild(text1);
+  divInstructions.appendChild(movimiento)
+  //INSTRUCCIONDES DE DISPARO
+  let disparo=document.createElement("p")
+  let text2=document.createTextNode(" spacebar for shooting.");
+  disparo.appendChild(text2);
+  divInstructions.appendChild(disparo)
  img.remove()
- // createKeys()
- 
- 
+arrowKeys();
+//reStart(); DESCOMENTAR
+//reiniciar=document.querySelector(".reset");
+let reiniciar=document.querySelector(".reset");
 }
+
+
 function RickOut(){
   const rickWin= document.createElement("IMG")
   rickWin.setAttribute("src","/imagenes/rick-sale.gif")
@@ -529,7 +543,21 @@ function removeRick(){
   removeRick.remove()
 }
 function arrowKeys(){
-
+  const flechas= document.createElement("IMG")
+  flechas.setAttribute("src","/imagenes/keys.png")
+  flechas.setAttribute("width","180");
+  flechas.setAttribute("height","150");
+  flechas.setAttribute("class","flechas");
+  divInstructions.appendChild(flechas)
+}
+function reStart(){
+  const reset= document.createElement("IMG")
+  reset.setAttribute("src","/imagenes/restart.png")
+  reset.setAttribute("width","180");
+  reset.setAttribute("height","150");
+  reset.setAttribute("class","reset");
+  divInstructions.appendChild(reset)
+  
 }
 //Cada vez que carge la pagina, va traer el elemento star y cuando se le haga click va ejecutar startGame
 window.onload= () =>{
@@ -540,7 +568,13 @@ window.onload= () =>{
         setLifes();
         instrucciones();
     }
+   
 }
+/*
+reiniciar.addEventListener('click',()=>{
+  console.log('reiniciando')
+})
+*/
 
 function startGame(){
     
@@ -550,6 +584,7 @@ gameInterval=setInterval(updateGame,1000/60)
    // }
 }
 //EVENTOS DEL JUGADOR
+
 document.addEventListener("keydown",(e)=>{
     e.preventDefault()
 

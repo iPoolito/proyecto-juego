@@ -18,13 +18,17 @@ display: flex;
 align-items: flex-start;
 }
 div{
+    /*
     border: solid red 1px;
+*/
 }
 .flex-container{
     /*Tamano del Div*/
     height: 100%;
     width: 100%;
+    /*
     border: solid yellow 2px;
+    */
     display: flex;
     align-items: center;
     justify-content: center;
@@ -43,8 +47,10 @@ div{
 }
  /* clases */
  .instructions-container{
+     /*
     border: solid pink 2px;
-     width: 30%;
+    */ 
+    width: 30%;
      height: 100%;
     display: flex;
     flex-direction: column;
@@ -66,7 +72,9 @@ div{
 
 }
 .gameBoard{
+    /*
     border: solid purple 2px;
+    */
     width: 70%;
      height: 100%;
     display: flex;
@@ -74,7 +82,28 @@ div{
     align-items: center;
     flex-direction: column;
 }
+/*DOM*/
 .rickWin{
     position: relative;
     top: 270px
+}
+.flechas{
+  position:relative;
+  left: 85px;
+  top: 75px;
+}
+.reset{
+    position:relative;
+  left: 85px;
+  top: 150px;
+}
+p{
+ 
+    color: white;
+    font-size: 1.5rem;
+    display: flex;
+    align-content: flex-start;
+    justify-content: flex-start;
+    padding-top: 25px; /*agregado para el padding revisar */
+
 }
