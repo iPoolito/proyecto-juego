@@ -491,6 +491,7 @@ function checkGameOver(){
     clearInterval(gameInterval)
     clearCanvas();
     rickCry();
+    
     setTimeout(lost,8000)
    playAudioLost()
   
@@ -503,32 +504,45 @@ function checkGameOver(){
    removeRickCry()
   boardLost.drawNoMove();
   fraseLost();
+  reStart();//aghregado
+  //Permite darle click y al boton de reset
+  setResetDOM();
 }
-
+//Funcion para la frase de perder
 function fraseLost(){
   ctx.font='40px ZCOOL KuaiLe';
   ctx.fillStyle= 'black';
   ctx.fillText(`Really Morty?`,50,200)
-  ctx.fillText(`even a game you can't win?`,50,250)
+  ctx.fillText(`even in a game you can't win?`,50,250)
 }
 //GANAR
 function checkWin(){
   if(rickGanar.x>730){
+    //para el tiempo o el motor del juego 
     clearInterval(gameInterval)
+    //limpia el canvas
     clearCanvas();
-  
+    //pone la secunecia de rick saliendo
     RickOut();
+    //reproduce el audio
     playAudioWin()
+    //Tieempo que deja la secuencia reproduciendo 
     setTimeout(win,8400)
-    //win()
+  
   }
 }
 
 function win(){
+  //Remueve la secunecia del final
   removeRick()
-
+//Imagen de ganaste
 boardWin.drawNoMove()
+//Crea la frase de ganaste y el score
 fraseWin()
+//Crea en boton de Reinicio
+reStart();
+//LAS FUNCIONES PARA PODER DARLE CLICK
+setResetDOM();
 
 }
 
@@ -558,13 +572,16 @@ function instrucciones(){
  img.remove()
 arrowKeys();
 spacebar();
-reStart(); //DESCOMENTAR
-
-reiniciar=document.querySelector(".reset"); // DESCOMENTAR
+//reStart(); //DESCOMENTAR
+//setResetDOM();
+//reiniciar=document.querySelector(".reset"); // DESCOMENTAR
 //intervalo que revisa si el boton ya fue presionado
-resetInterval=setInterval(resetGame,1000/60) //DESCOMENTAR
+//resetInterval=setInterval(resetGame,1000/60) //DESCOMENTAR
 }
-
+function setResetDOM(){
+  reiniciar=document.querySelector(".reset"); 
+resetInterval=setInterval(resetGame,1000/60)
+}
 //Secuencia cuando ganass
 function RickOut(){
   const rickWin= document.createElement("IMG")
