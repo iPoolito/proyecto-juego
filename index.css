@@ -103,8 +103,9 @@ div{
   }
 .reset{
     position:relative;
-  left: 85px;
+  left: 125px;
   top: 50px;
+  cursor: pointer;
 }
 p{
  
@@ -115,4 +116,7 @@ p{
     justify-content: flex-start;
     padding-top: 25px; /*agregado para el padding revisar */
 
+}
+#start{
+    cursor: pointer;
 }

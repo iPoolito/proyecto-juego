@@ -11,6 +11,8 @@ const audioLost = new Audio("/music/evil-morty-lost.mp3");
 const audioWin = new Audio("/music/warriors.mp3");
 const audioShot = new Audio("/music/lasershot.mp3");
 
+let keys={}
+
 
 //La etiqueta que vamos a utiliazar para referirnos al canvas
 const $canvas = document.querySelector("#canvas");
@@ -71,7 +73,7 @@ class Rick{
      this.speedX=0;
      this.speedY=0;
      this.img=new Image();
-     this.img.src="/imagenes/picklerick-canonpng";
+     this.img.src="/imagenes/picklerick-canon.png";
 
  }
  //Metodos de  RICK
@@ -300,8 +302,6 @@ const player=new Rick(50,300); //el jugador
 const rickGanar=new rickRoad(300,25,"/imagenes/Pickle_rick_transparent_edgetrimmed.png");//Rick moviendose arriba
 const inicio=new start(250,10,"/imagenes/start.png");// START
 const meta= new start(700,10,"/imagenes/bano.png");// END
-const ratHead=new start(800,10,"/imagenes/rathead.png");// RATHEAD
-const Xpor=new start(860,10,"/imagenes/x.png");// X
 const boardLost=new Board("/imagenes/perdiste morty.png");//PANTALLA DE PERDER
 const boardWin=new Board("/imagenes/winImage.jpg");//PANTALLA DE GANAR
 
@@ -317,8 +317,7 @@ player.outBoard();
 player.draw();
 inicio.draw();
 meta.draw();
-//ratHead.draw()
-//Xpor.draw();
+checkKeys();
 rickGanar.draw();
 disparo();
 updateObstacles();
@@ -492,7 +491,7 @@ function checkGameOver(){
     clearCanvas();
     rickCry();
     
-    setTimeout(lost,8000)
+    setTimeout(lost,5000)
    playAudioLost()
   
     //lost();
@@ -511,7 +510,7 @@ function checkGameOver(){
 //Funcion para la frase de perder
 function fraseLost(){
   ctx.font='40px ZCOOL KuaiLe';
-  ctx.fillStyle= 'black';
+  ctx.fillStyle= 'white';
   ctx.fillText(`Really Morty?`,50,200)
   ctx.fillText(`even in a game you can't win?`,50,250)
 }
@@ -632,9 +631,9 @@ function spacebar(){
 }
 function reStart(){
   const reset= document.createElement("IMG")
-  reset.setAttribute("src","/imagenes/restart.png")
-  reset.setAttribute("width","180");
-  reset.setAttribute("height","150");
+  reset.setAttribute("src","/imagenes/restarttt.png")
+  reset.setAttribute("width","100");
+  reset.setAttribute("height","100");
   reset.setAttribute("class","reset");
   divInstructions.appendChild(reset)
   
@@ -657,7 +656,7 @@ window.onload= () =>{
         setLifes();
         instrucciones();
     }
-    //let keys = []
+  
     
     
 }
@@ -734,7 +733,23 @@ function resetGame(){
 //VARIANTE DE KEYS
 
 function checkKeys(){
-
+  /*
+if(keys[38]==true){
+  player.speedY-=5;
+}
+if(keys[39]){
+  player.speedX+=5;
+}
+if(keys[37]){
+  player.speedX-=5
+}
+if(keys[40]){
+  player.speedY+=5;
+}
+if(keys[32]){
+  space=true;
+}
+*/
 
 }
 
@@ -763,11 +778,12 @@ document.addEventListener("keydown",(e)=>{
   
     }
     
-   //keys[e.keyCode]==true;
+   keys[e.keyCode]==true;
   
   })
 
   document.addEventListener("keyup",(e)=>{
+    keys[e.keyCode]==false;
     player.speedX=0;
     player.speedY=0;
     space=false;
