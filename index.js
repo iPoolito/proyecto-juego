@@ -6,7 +6,9 @@ const img=document.querySelector("#start")
 const divInstructions= document.querySelector(".instructions-container");
 const divGameBoard= document.querySelector(".gameBoard");
 let reiniciar
-
+const audio = new Audio("/music/opening.mp3");
+const audioLost = new Audio("/music/evil-morty-lost.mp3");
+const audioShot = new Audio("/music/lasershot.mp3");
 
 
 //La etiqueta que vamos a utiliazar para referirnos al canvas
@@ -81,17 +83,17 @@ class Rick{
  //Movimiento
 
  moveUp(){
-     return this.y
+     return this.y 
  }
 
  moveDown(){
-     return this.y+this.height
+     return this.y+this.height 
  }
  moveLeft(){
-    return this.x
+    return this.x 
  }
  moveRight(){
-     return this.x+this.width
+     return this.x+this.width 
  }
  newPos(){
      this.x+=this.speedX
@@ -146,6 +148,7 @@ crashWith(obstacle) {
   
 
 }
+//Clase de ratas
 class Rats{
     constructor(x,y){
         this.x = x
@@ -179,13 +182,13 @@ left() {
   
 
 }
-
+//Clase del laser
 class laser{
     constructor(x,y){
         this.x = x
         this.y=y
-        this.width=70;
-        this.height=40;
+        this.width=20;
+        this.height=2;
         this.img=new Image();
      this.img.src="/imagenes/laser.png";
     }
@@ -296,6 +299,8 @@ const player=new Rick(50,300); //el jugador
 const rickGanar=new rickRoad(300,25,"/imagenes/Pickle_rick_transparent_edgetrimmed.png");//Rick moviendose arriba
 const inicio=new start(250,10,"/imagenes/start.png");// START
 const meta= new start(700,10,"/imagenes/bano.png");// END
+const ratHead=new start(800,10,"/imagenes/rathead.png");// RATHEAD
+const Xpor=new start(860,10,"/imagenes/x.png");// X
 const boardLost=new Board("/imagenes/perdiste morty.png");//PANTALLA DE PERDER
 const boardWin=new Board("/imagenes/winImage.jpg");//PANTALLA DE GANAR
 
@@ -311,6 +316,8 @@ player.outBoard();
 player.draw();
 inicio.draw();
 meta.draw();
+//ratHead.draw()
+//Xpor.draw();
 rickGanar.draw();
 disparo();
 updateObstacles();
@@ -329,7 +336,8 @@ function updateObstacles(){
 //Ciclo para pintar a cada uno de los obstaculos creados
     for(let i=0;i<myObstacles.length;i++){
 //Restamos en X para que simulen que se estan desplazando  de derecha a izquierda
-        myObstacles[i].x-=1
+//Velocidad de las ratas
+        myObstacles[i].x-=5
         myObstacles[i].draw()
         //COndicion que va eliminado las ratas del arreglo cuando salen del canvas
         if(myObstacles[i].x<0){
@@ -364,7 +372,7 @@ function disparo(){
     //console.log(space)
     for(let i=0;i<disparos.length;i++){
         //Restamos en X para que simulen que se estan desplazando  derecha a izquierda
-            disparos[i].x+=1
+            disparos[i].x+=10
             disparos[i].draw()
             //Limpia los disparos si sobrepasan el canvas 
 
@@ -374,9 +382,10 @@ function disparo(){
             }
             //console.log(disparos)
 
-            if(space==true){
+            if(space==true && frames%10==0){
 
               //setTimeout(pushearLaser,1000);
+              playAudioShot();
                 disparos.push(new laser(player.x+50,player.y))
             
               }
@@ -472,8 +481,8 @@ function clearCanvas(){
 //SCORE
 function checkScore(){
     ctx.font='18px ZCOOL KuaiLe';
-    ctx.fillStyle= 'green';
-    ctx.fillText(`Ratas eliminadas: ${score}`,800,25)
+    ctx.fillStyle= 'RED';
+    ctx.fillText(`Killed Rats: ${score}`,800,25)
 }
 //GAME OVER
 function checkGameOver(){
@@ -481,7 +490,9 @@ function checkGameOver(){
     clearInterval(gameInterval)
     clearCanvas();
     rickCry();
-    setTimeout(lost,5000)
+    setTimeout(lost,8000)
+   playAudioLost()
+  
     //lost();
   }
 }
@@ -496,8 +507,8 @@ function checkGameOver(){
 function fraseLost(){
   ctx.font='40px ZCOOL KuaiLe';
   ctx.fillStyle= 'black';
-  ctx.fillText(`Eres un inutil Morty`,50,200)
-  ctx.fillText(`Ni si quiera un juego puedes ganar?`,50,250)
+  ctx.fillText(`Really Morty?`,50,200)
+  ctx.fillText(`even a game you can't win?`,50,250)
 }
 //GANAR
 function checkWin(){
@@ -516,6 +527,7 @@ function win(){
 
 boardWin.drawNoMove()
 fraseWin()
+
 }
 
 function fraseWin(){
@@ -523,7 +535,7 @@ function fraseWin(){
   ctx.font='40px ZCOOL KuaiLe';
   ctx.fillStyle= 'Green';
   ctx.fillText(`YOU WIN`,430,50)
-  ctx.fillText(`Ratas eliminadas: ${score}`,300,560)
+  ctx.fillText(`Killed Rats: ${score}`,300,560)
 }
 //Agregar la parte de las instrucciones y las arrowKeys!
 function instrucciones(){
@@ -545,9 +557,9 @@ function instrucciones(){
 arrowKeys();
 reStart(); //DESCOMENTAR
 
-reiniciar=document.querySelector(".reset");
+reiniciar=document.querySelector(".reset"); // DESCOMENTAR
 //intervalo que revisa si el boton ya fue presionado
-resetInterval=setInterval(resetGame,1000/60)
+resetInterval=setInterval(resetGame,1000/60) //DESCOMENTAR
 }
 
 //Secuencia cuando ganass
@@ -617,16 +629,37 @@ window.onload= () =>{
         setLifes();
         instrucciones();
     }
-   
+    //let keys = []
+    
+    
 }
 /*
 reiniciar.addEventListener('click',()=>{
   console.log('reiniciando')
 })
 */
+setTimeout(playAudio,1000)
 
+function playAudio(){
+  audio.play()
+  audio.volume=0.3
+  
+}
+
+function playAudioLost(){
+  audio.pause();
+audioLost.play();
+audioLost.currentTime=35;
+audioLost.volume=0.3;
+
+}
+function playAudioShot(){
+  audioShot.play()
+  audioShot.currentTime=1
+  audioShot.volume=0.5
+}
 function startGame(){
-    
+ 
   //  if (gameOn==true)
    // {
 gameInterval=setInterval(updateGame,1000/60)
@@ -635,6 +668,8 @@ gameInterval=setInterval(updateGame,1000/60)
 //EVENTOS DEL JUGADOR
 function resetGame(){
   reiniciar.onclick=()=>{
+    //paramos auido
+    audioLost.pause()
     //Paramos el motor del juego
     clearInterval(gameInterval)
   
@@ -657,22 +692,31 @@ function resetGame(){
     console.log("reiniciando")
   }
 }
+
+//VARIANTE DE KEYS
+
+function checkKeys(){
+
+
+}
+
+
 document.addEventListener("keydown",(e)=>{
     e.preventDefault()
-
+/**/
     switch(e.keyCode){
     case 39:
-      player.speedX+=1;
+      player.speedX+=5;
       break;
     case 37:
-      player.speedX-=1
+      player.speedX-=5
       break;
 
     case 38:
-      player.speedY-=1;
+      player.speedY-=5;
       break
     case 40:
-      player.speedY+=1;
+      player.speedY+=5;
       break;
     case 32:
         space=true;
@@ -681,6 +725,7 @@ document.addEventListener("keydown",(e)=>{
   
     }
     
+   //keys[e.keyCode]==true;
   
   })
 
