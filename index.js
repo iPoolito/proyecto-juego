@@ -333,11 +333,29 @@ checkWin();
 const myObstacles=[];
 
 function updateObstacles(){
+//COndicion para aumentar la velocidad respecto al score
+let velocidad=3
+let spawn=70
+if(score>5 && score<21){
+velocidad=5
+spawn=70
+}
+if(score>20 && score<30){
+  velocidad=6
+  spawn=50
+}
+if(score>29 && score<50){
+  velocidad=4
+  spawn=5
+}
+  
+  
+
 //Ciclo para pintar a cada uno de los obstaculos creados
     for(let i=0;i<myObstacles.length;i++){
 //Restamos en X para que simulen que se estan desplazando  de derecha a izquierda
 //Velocidad de las ratas
-        myObstacles[i].x-=5
+        myObstacles[i].x-=velocidad//5
         myObstacles[i].draw()
         //COndicion que va eliminado las ratas del arreglo cuando salen del canvas
         if(myObstacles[i].x<0){
@@ -350,11 +368,13 @@ function updateObstacles(){
     //console.log(myObstacles)
 //VAmos aumentando los frames en 1
 frames+=1;
-if(frames%7==0){
+//CONDICION QUE AUMENTA LA POSICION DEL PICKLE DEL CAMINO
+if(frames%5==0){//7
   rickGanar.x++
 }
+
 //Cada 120 frames entraremos a la condicion de crear un obstaculo random
-    if(frames%60==0){
+    if(frames%spawn==0){//60
 //ancho y largo del canvas
     let minHeight=100;
     let maxHeight=500;
