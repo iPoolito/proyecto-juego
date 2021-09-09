@@ -345,7 +345,7 @@ if(score>20 && score<30){
   spawn=50
 }
 if(score>29 && score<50){
-  velocidad=4
+  velocidad=5
   spawn=5
 }
   
