@@ -369,7 +369,7 @@ if(score>29 && score<50){
 //VAmos aumentando los frames en 1
 frames+=1;
 //CONDICION QUE AUMENTA LA POSICION DEL PICKLE DEL CAMINO
-if(frames%5==0){//7
+if(frames%4==0){//7
   rickGanar.x++
 }
 
