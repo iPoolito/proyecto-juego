@@ -341,7 +341,7 @@ velocidad=5
 spawn=70
 }
 if(score>20 && score<30){
-  velocidad=6
+  velocidad=5
   spawn=50
 }
 if(score>29 && score<50){
@@ -689,7 +689,7 @@ setTimeout(playAudio,1000)
 
 function playAudio(){
   audio.play()
-  audio.volume=0.3
+  audio.volume=0.1
   
 }
 
@@ -697,21 +697,21 @@ function playAudioLost(){
   audio.pause();
 audioLost.play();
 audioLost.currentTime=35;
-audioLost.volume=0.3;
+audioLost.volume=0.1;
 
 }
 function playAudioWin(){
   audio.pause();
 audioWin.play();
 audioWin.currentTime=3;
-audioWin.volume=0.3;
+audioWin.volume=0.1;
 
 }
 
 function playAudioShot(){
   audioShot.play()
   audioShot.currentTime=1
-  audioShot.volume=0.5
+  audioShot.volume=0.4
 }
 function startGame(){
  
